@@ -1,0 +1,31 @@
+#!/bin/bash
+
+# 一键推送到 GitHub 命令
+# 使用方法：bash push-command.sh
+
+echo "🚀 准备推送到 GitHub..."
+echo ""
+echo "📝 请按以下步骤操作："
+echo ""
+echo "1️⃣ 在 GitHub 创建仓库："
+echo "   访问：https://github.com/new"
+echo "   仓库名：pdd-fudai"
+echo "   选择：Public（公开）"
+echo "   不要勾选：Initialize this repository with a README"
+echo "   点击：Create repository"
+echo ""
+echo "2️⃣ 复制以下命令并执行："
+echo "=========================================="
+echo "git remote add origin https://github.com/ZhaoJjun/pdd-fudai.git"
+echo "git push -u origin main"
+echo "=========================================="
+echo ""
+echo "3️⃣ 推送成功后，启用 GitHub Pages："
+echo "   访问：https://github.com/ZhaoJjun/pdd-fudai/settings/pages"
+echo "   Source: Deploy from a branch"
+echo "   Branch: main → /(root)"
+echo "   点击 Save"
+echo ""
+echo "4️⃣ 等待 1-2 分钟，访问你的网站："
+echo "   https://ZhaoJjun.github.io/pdd-fudai/"
+echo ""
