@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDD 福袋互助 - 拼多多百亿补贴组队互助平台</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- 顶部导航栏 -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <a href="/">
+                    <span class="logo-text">ACDOG.cn</span>
+                    <span class="logo-sub">pdd</span>
+                </a>
+            </div>
+            <nav class="main-nav">
+                <a href="/" class="nav-item">首页</a>
+                <a href="/pdd" class="nav-item active">PDD 福袋互助 <span class="badge">主推</span></a>
+                <a href="/pin" class="nav-item">PDD 多人团组队 <span class="badge beta">公测</span></a>
+                <a href="/kl" class="nav-item">外卖优惠互助 <span class="badge">主推</span></a>
+                <a href="/clipboard" class="nav-item">云剪贴板 <span class="badge">工具</span></a>
+                <a href="/about" class="nav-item">关于我们</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- 主内容区 -->
+    <main class="container">
+        <!-- 页面标题区 -->
+        <section class="page-header">
+            <div class="header-content">
+                <h1>PDD 福袋互助</h1>
+                <div class="social-links">
+                    <button class="btn-follow" id="followBtn">
+                        <span>关注公众号</span>
+                    </button>
+                </div>
+            </div>
+            <div class="author-info">
+                <span>关注作者：</span>
+                <a href="#" class="author-link">
+                    <span>抖音 那不行得加钱</span>
+                </a>
+                <span class="version">| v2.5.7</span>
+            </div>
+            <div class="stats">
+                <span>今日助力</span>
+                <strong id="todayHelpCount">42,908</strong>
+                <span>人次</span>
+            </div>
+        </section>
+
+        <!-- 快捷工具栏 -->
+        <section class="quick-tools">
+            <div class="tool-item" id="smartDirect">
+                <span class="tool-icon">🚀</span>
+                <span class="tool-name">智能直达</span>
+            </div>
+            <div class="tool-item" id="reportBtn">
+                <span class="tool-icon">⚠️</span>
+                <span class="tool-name">异常举报</span>
+            </div>
+            <div class="tool-item" id="aboutBtn">
+                <span class="tool-icon">ℹ️</span>
+                <span class="tool-name">关于联系</span>
+            </div>
+        </section>
+
+        <!-- 快速入口 -->
+        <section class="quick-links">
+            <a href="/kl" class="quick-link-item">
+                <span class="link-text">外卖优惠互助</span>
+                <span class="link-arrow">›</span>
+            </a>
+            <a href="/pin" class="quick-link-item">
+                <span class="link-text">拼 DD 多人团</span>
+                <span class="link-arrow">›</span>
+                <span class="badge new">NEW</span>
+            </a>
+            <a href="/tb" class="quick-link-item special">
+                <span class="link-text">淘宝周年庆免单（限时）</span>
+                <span class="link-arrow">›</span>
+            </a>
+        </section>
+
+        <!-- 邀请码发布区 -->
+        <section class="publish-section">
+            <div class="publish-header">
+                <div class="tab-group">
+                    <button class="tab-btn active" data-tab="published">我发布的</button>
+                    <button class="tab-btn" data-tab="used">我使用的</button>
+                </div>
+            </div>
+            
+            <div class="publish-form">
+                <div class="input-group">
+                    <input type="text" 
+                           class="code-input" 
+                           id="inviteCodeInput" 
+                           placeholder="填 9 位拼多多福袋码" 
+                           maxlength="9"
+                           pattern="[0-9]{9}">
+                    <button class="publish-btn" id="publishBtn">立即发布</button>
+                </div>
+                <div class="checkbox-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="agreeCheck" checked>
+                        <span class="checkbox-text">先勾为敬：说好的互助，拉人头减减卡类将直接封禁。</span>
+                    </label>
+                    <div class="checkbox-hint">
+                        <span>复制分享成功后，当日免勾。</span>
+                        <button class="btn-expand" id="expandRules">展开要点</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 推荐区域 -->
+        <section class="recommend-section">
+            <div class="recommend-header">
+                <button class="close-recommend" id="closeRecommend">×</button>
+                <div class="recommend-content">
+                    <p class="recommend-title">干饭外卖每日必领神券</p>
+                    <p class="recommend-sub">京东 · 美团 · 淘宝闪购｜领券组队个位数吃外卖</p>
+                </div>
+                <div class="recommend-buttons">
+                    <button class="recommend-btn">京东外卖</button>
+                    <button class="recommend-btn">淘宝闪购</button>
+                    <button class="recommend-btn">美团外卖</button>
+                </div>
+            </div>
+            <p class="recommend-note">亲测整理，能省则省；干饭省钱、优惠红包。</p>
+        </section>
+
+        <!-- 可用邀请码列表 -->
+        <section class="code-list-section">
+            <div class="list-header">
+                <h2>可用邀请码 <span class="count-badge" id="availableCount">4</span></h2>
+                <div class="header-links">
+                    <a href="#" class="header-link">全网优惠券</a>
+                    <a href="/kl" class="header-link">外卖板块 <span class="badge new">NEW</span></a>
+                </div>
+                <div class="refresh-info">
+                    <span class="refresh-time" id="refreshTime">07:35:41</span>
+                </div>
+            </div>
+            
+            <div class="list-controls">
+                <label class="checkbox-label">
+                    <input type="checkbox" id="copyOnlyCheck">
+                    <span class="checkbox-text">仅复制</span>
+                </label>
+                <div class="control-buttons">
+                    <button class="control-btn" id="refreshBtn">
+                        <span>🔄</span>
+                        <span>刷新</span>
+                    </button>
+                    <button class="control-btn" id="smartDirectBtn">智能直达</button>
+                    <button class="control-btn" id="smartDirectHelp">智能直达说明</button>
+                </div>
+            </div>
+
+            <ul class="code-list" id="availableList">
+                <!-- 动态生成 -->
+            </ul>
+        </section>
+
+        <!-- 已使用列表 -->
+        <section class="used-list-section">
+            <div class="list-header">
+                <h2>已使用 <span class="count-badge" id="usedCount">20999+</span> （今日）</h2>
+                <div class="list-actions">
+                    <button class="action-btn" id="unbanBtn">解封</button>
+                    <button class="action-btn" id="blacklistBtn">封禁小黑屋</button>
+                    <button class="action-btn" id="reportListBtn">举报</button>
+                </div>
+            </div>
+
+            <ul class="code-list used-list" id="usedList">
+                <!-- 动态生成 -->
+            </ul>
+
+            <div class="total-stats">
+                <p>累计帮助组队 <strong>1,547,750</strong> 次</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <p>闪贴工具站 · PDD 百亿补贴福袋组队互助</p>
+            <p><a href="https://cv.intgold.cn">cv.intgold.cn</a></p>
+        </div>
+    </footer>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
