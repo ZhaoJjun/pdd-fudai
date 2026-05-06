@@ -280,25 +280,16 @@ function useCode(code) {
     if (copyOnly) {
         showToast('✅ 邀请码已复制，请手动打开拼多多');
     } else {
-        // 尝试跳转拼多多
+        // 直接跳转拼多多福袋页面
         setTimeout(() => {
-            // 拼多多福袋页面的 URL scheme
-            const pddUrl = `pinduoduo://api_proxy/giftBag?code=${code}`;
+            // 拼多多福袋 H5 页面链接
+            const pddUrl = `https://mobile.yangkeduo.com/gift_bag.html?code=${code}`;
             
-            // 尝试打开 APP
-            const iframe = document.createElement('iframe');
-            iframe.style.display = 'none';
-            iframe.src = pddUrl;
-            document.body.appendChild(iframe);
+            // 在当前窗口打开，更容易跳转 APP
+            window.location.href = pddUrl;
             
-            // 同时打开网页版作为备选
-            setTimeout(() => {
-                document.body.removeChild(iframe);
-                // 打开拼多多网页版
-                window.open('https://mobile.yangkeduo.com/', '_blank');
-                showToast('🚀 已尝试打开拼多多 APP');
-            }, 1000);
-        }, 300);
+            showToast('🚀 正在跳转拼多多...');
+        }, 200);
     }
 }
 
