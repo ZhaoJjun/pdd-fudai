@@ -284,25 +284,23 @@ function useCode(code) {
     
     if (copyOnly) {
         showToast('✅ 邀请码已复制');
-        return;
+    } else {
+        // 显示提示
+        showToast('🚀 正在打开拼多多...');
+        
+        // 拼多多 APP URL scheme
+        const pddScheme = `pinduoduo://duo_hybrid?active_id=15528&code=${code}`;
+        
+        // 直接跳转
+        window.location.href = pddScheme;
+        
+        // 如果 3 秒后还在当前页面，显示手动打开提示
+        setTimeout(() => {
+            if (window.location.href.includes('github.io')) {
+                showToast('⚠️ 如未自动打开，请手动打开拼多多 APP');
+            }
+        }, 3000);
     }
-    
-    // 直接跳转，不等待
-    showToast('🚀 正在打开拼多多...');
-    
-    // 拼多多 APP URL scheme
-    const pddScheme = `pinduoduo://duo_hybrid?active_id=15528&code=${code}`;
-    
-    // 方法 1: 直接使用 location.href (最有效)
-    window.location.href = pddScheme;
-    
-    // 方法 2: 2 秒后如果没打开 APP，打开网页版
-    setTimeout(() => {
-        // 检查是否还在当前页面（说明 APP 没打开）
-        if (window.location.href.includes('github.io')) {
-            window.location.href = `https://mobile.yangkeduo.com/duo_hybrid.html?active_id=15528&code=${code}`;
-        }
-    }, 2000);
 }
 
 // 分享邀请码
