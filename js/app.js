@@ -149,17 +149,27 @@ function bindEvents() {
         });
     });
     
-    // 智能直达
+    // 智能直达 - 点击邀请码的"使用"按钮时自动跳转拼多多
     document.getElementById('smartDirect').addEventListener('click', () => {
-        showToast('智能直达功能已启动');
+        const code = prompt('请输入拼多多福袋邀请码（9 位数字）：');
+        if (code && code.length === 9) {
+            useCode(code);
+        } else if (code) {
+            showToast('⚠️ 邀请码必须是 9 位数字');
+        }
     });
     
     document.getElementById('smartDirectBtn').addEventListener('click', () => {
-        showToast('智能直达功能已启动');
+        const code = prompt('请输入拼多多福袋邀请码（9 位数字）：');
+        if (code && code.length === 9) {
+            useCode(code);
+        } else if (code) {
+            showToast('⚠️ 邀请码必须是 9 位数字');
+        }
     });
     
     document.getElementById('smartDirectHelp').addEventListener('click', () => {
-        alert('智能直达说明：\n\n1. 自动识别拼多多福袋页面\n2. 一键复制邀请码并跳转\n3. 支持批量处理多个邀请码');
+        alert('智能直达说明：\n\n1. 点击列表中的"使用"按钮\n2. 自动复制邀请码并跳转拼多多\n3. 或点击顶部"智能直达"手动输入邀请码\n4. 支持批量处理多个邀请码\n\n⚠️ 注意：需要已安装拼多多 APP 才能跳转');
     });
     
     // 异常举报
@@ -260,18 +270,35 @@ function handlePublish() {
     console.log('发布成功，当前可用邀请码数量:', mockAvailableCodes.length);
 }
 
-// 使用邀请码
+// 使用邀请码 - 复制并跳转拼多多
 function useCode(code) {
     const copyOnly = copyOnlyCheck.checked;
     
+    // 先复制邀请码
+    copyCode(code);
+    
     if (copyOnly) {
-        copyCode(code);
+        showToast('✅ 邀请码已复制，请手动打开拼多多');
     } else {
-        copyCode(code);
+        // 尝试跳转拼多多
         setTimeout(() => {
-            // 模拟跳转到拼多多
-            showToast('已复制并跳转拼多多...');
-        }, 500);
+            // 拼多多福袋页面的 URL scheme
+            const pddUrl = `pinduoduo://api_proxy/giftBag?code=${code}`;
+            
+            // 尝试打开 APP
+            const iframe = document.createElement('iframe');
+            iframe.style.display = 'none';
+            iframe.src = pddUrl;
+            document.body.appendChild(iframe);
+            
+            // 同时打开网页版作为备选
+            setTimeout(() => {
+                document.body.removeChild(iframe);
+                // 打开拼多多网页版
+                window.open('https://mobile.yangkeduo.com/', '_blank');
+                showToast('🚀 已尝试打开拼多多 APP');
+            }, 1000);
+        }, 300);
     }
 }
 
