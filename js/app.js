@@ -1,26 +1,26 @@
 // PDD 福袋互助 - 前端交互逻辑
 
-// 模拟数据
+// 模拟数据 - fullCode 是完整邀请码，displayCode 是显示的带星号码
 const mockAvailableCodes = [
-    { code: '875**4498', time: '05/06 07:35', ip: '182.*.*.105' },
-    { code: '872**0048', time: '05/06 07:35', ip: '120.*.*.6' },
-    { code: '878**6474', time: '05/06 07:35', ip: '123.*.*.150' },
-    { code: '876**0274', time: '05/06 07:35', ip: '123.*.*.20' }
+    { code: '875123498', displayCode: '875**498', time: '05/06 07:35', ip: '182.*.*.105' },
+    { code: '872567048', displayCode: '872**048', time: '05/06 07:35', ip: '120.*.*.6' },
+    { code: '878901474', displayCode: '878**474', time: '05/06 07:35', ip: '123.*.*.150' },
+    { code: '876234274', displayCode: '876**274', time: '05/06 07:35', ip: '123.*.*.20' }
 ];
 
 const mockUsedCodes = [
-    { code: '872962171', time: '05/06 07:35', ip: '180.*.*.144' },
-    { code: '874483957', time: '05/06 07:35', ip: '180.*.*.5' },
-    { code: '873318628', time: '05/06 07:35', ip: '27.*.*.252' },
-    { code: '878741898', time: '05/06 07:35', ip: '27.*.*.242' },
-    { code: '874991878', time: '05/06 07:35', ip: '140.*.*.41' },
-    { code: '875960587', time: '05/06 07:35', ip: '144.*.*.212' },
-    { code: '874373373', time: '05/06 07:35', ip: '112.*.*.123' },
-    { code: '876809505', time: '05/06 07:35', ip: '182.*.*.68' },
-    { code: '873253092', time: '05/06 07:35', ip: '39.*.*.117' },
-    { code: '880185736', time: '05/06 07:35', ip: '106.*.*.42' },
-    { code: '872470784', time: '05/06 07:35', ip: '60.*.*.98' },
-    { code: '875849987', time: '05/06 07:35', ip: '112.*.*.97' }
+    { code: '872962171', displayCode: '872**171', time: '05/06 07:35', ip: '180.*.*.144' },
+    { code: '874483957', displayCode: '874**957', time: '05/06 07:35', ip: '180.*.*.5' },
+    { code: '873318628', displayCode: '873**628', time: '05/06 07:35', ip: '27.*.*.252' },
+    { code: '878741898', displayCode: '878**898', time: '05/06 07:35', ip: '27.*.*.242' },
+    { code: '874991878', displayCode: '874**878', time: '05/06 07:35', ip: '140.*.*.41' },
+    { code: '875960587', displayCode: '875**587', time: '05/06 07:35', ip: '144.*.*.212' },
+    { code: '874373373', displayCode: '874**373', time: '05/06 07:35', ip: '112.*.*.123' },
+    { code: '876809505', displayCode: '876**505', time: '05/06 07:35', ip: '182.*.*.68' },
+    { code: '873253092', displayCode: '873**092', time: '05/06 07:35', ip: '39.*.*.117' },
+    { code: '880185736', displayCode: '880**736', time: '05/06 07:35', ip: '106.*.*.42' },
+    { code: '872470784', displayCode: '872**784', time: '05/06 07:35', ip: '60.*.*.98' },
+    { code: '875849987', displayCode: '875**987', time: '05/06 07:35', ip: '112.*.*.97' }
 ];
 
 // DOM 元素
@@ -51,17 +51,20 @@ function renderAvailableCodes() {
     availableList.innerHTML = '';
     mockAvailableCodes.forEach(item => {
         const li = document.createElement('li');
+        // 显示带星号的代码，但点击时传递完整代码
+        const fullCode = item.code || item.displayCode.replace('**', '000');
+        const displayCode = item.displayCode || item.code;
         li.innerHTML = `
             <div class="code-info">
-                <div class="code-number">${item.code}</div>
+                <div class="code-number">${displayCode}</div>
                 <div class="code-meta">${item.time} from ${item.ip}</div>
             </div>
             <div class="code-actions">
-                <button class="action-btn" onclick="useCode('${item.code}')">
+                <button class="action-btn" onclick="useCode('${fullCode}')">
                     <span>📋</span>
                     <span>使用</span>
                 </button>
-                <button class="action-btn secondary" onclick="shareCode('${item.code}')">
+                <button class="action-btn secondary" onclick="shareCode('${fullCode}')">
                     <span>🔗</span>
                     <span>分享</span>
                 </button>
@@ -77,9 +80,10 @@ function renderUsedCodes() {
     usedList.innerHTML = '';
     mockUsedCodes.forEach(item => {
         const li = document.createElement('li');
+        const displayCode = item.displayCode || item.code;
         li.innerHTML = `
             <div class="code-info">
-                <div class="code-number">${item.code}</div>
+                <div class="code-number">${displayCode}</div>
                 <div class="code-meta">${item.time} from ${item.ip}</div>
             </div>
             <div class="code-actions">
@@ -245,13 +249,14 @@ function handlePublish() {
         return;
     }
     
-    // 模拟发布成功
-    const maskedCode = code.substring(0, 3) + '***' + code.substring(6);
+    // 保存完整代码和显示代码（带星号）
+    const displayCode = code.substring(0, 3) + '**' + code.substring(6);
     const now = new Date();
     const timeStr = `${String(now.getMonth() + 1).padStart(2, '0')}/${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
     
     mockAvailableCodes.unshift({
-        code: maskedCode,
+        code: code,  // 完整代码，用于复制和跳转
+        displayCode: displayCode,  // 带星号的显示代码
         time: timeStr,
         ip: '192.*.*.*'
     });
