@@ -115,7 +115,7 @@ function bindEvents() {
     
     // 关注公众号
     followBtn.addEventListener('click', () => {
-        showToast('公众号：那不行得加钱');
+        showToast('欢迎关注！GitHub: ZhaoJjun');
     });
     
     // 关闭推荐
@@ -159,7 +159,7 @@ function bindEvents() {
     
     // 关于联系
     document.getElementById('aboutBtn').addEventListener('click', () => {
-        alert('关于联系：\n\n作者：那不行得加钱\n抖音：那不行得加钱\n版本：v2.5.7\n\n累计帮助组队 1,547,750 次');
+        alert('关于联系：\n\n作者：ZhaoJjun\nGitHub: https://github.com/ZhaoJjun\n版本：v1.0.0\n\nPDD 福袋互助 - 免费组队平台');
     });
     
     // 解封/封禁/举报
