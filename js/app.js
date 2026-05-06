@@ -283,31 +283,26 @@ function useCode(code) {
     copyCode(code);
     
     if (copyOnly) {
-        showToast('✅ 邀请码已复制，请手动打开拼多多');
-    } else {
-        // 跳转拼多多 APP
-        setTimeout(() => {
-            // 拼多多 APP URL scheme - 百亿补贴福袋页面
-            const pddScheme = `pinduoduo://duo_hybrid?active_id=15528&code=${code}`;
-            
-            // 创建隐藏的 iframe 尝试打开 APP
-            const iframe = document.createElement('iframe');
-            iframe.style.display = 'none';
-            iframe.src = pddScheme;
-            document.body.appendChild(iframe);
-            
-            // 2 秒后如果 APP 没打开，打开网页版
-            setTimeout(() => {
-                if (iframe.parentNode) {
-                    document.body.removeChild(iframe);
-                }
-                // 打开拼多多网页版福袋页面
-                window.location.href = `https://mobile.yangkeduo.com/duo_hybrid.html?active_id=15528&code=${code}`;
-            }, 2000);
-            
-            showToast('🚀 正在打开拼多多...');
-        }, 300);
+        showToast('✅ 邀请码已复制');
+        return;
     }
+    
+    // 直接跳转，不等待
+    showToast('🚀 正在打开拼多多...');
+    
+    // 拼多多 APP URL scheme
+    const pddScheme = `pinduoduo://duo_hybrid?active_id=15528&code=${code}`;
+    
+    // 方法 1: 直接使用 location.href (最有效)
+    window.location.href = pddScheme;
+    
+    // 方法 2: 2 秒后如果没打开 APP，打开网页版
+    setTimeout(() => {
+        // 检查是否还在当前页面（说明 APP 没打开）
+        if (window.location.href.includes('github.io')) {
+            window.location.href = `https://mobile.yangkeduo.com/duo_hybrid.html?active_id=15528&code=${code}`;
+        }
+    }, 2000);
 }
 
 // 分享邀请码
