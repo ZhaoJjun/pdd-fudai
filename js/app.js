@@ -107,11 +107,24 @@ function updateRefreshTime() {
 
 // 绑定事件
 function bindEvents() {
-    // 发布按钮
-    publishBtn.addEventListener('click', handlePublish);
+    // 发布按钮 - 支持点击和回车
+    if (publishBtn) {
+        publishBtn.addEventListener('click', handlePublish);
+    }
+    
+    // 输入框回车发布
+    if (inviteCodeInput) {
+        inviteCodeInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                handlePublish();
+            }
+        });
+    }
     
     // 刷新按钮
-    refreshBtn.addEventListener('click', handleRefresh);
+    if (refreshBtn) {
+        refreshBtn.addEventListener('click', handleRefresh);
+    }
     
     // 关注公众号
     followBtn.addEventListener('click', () => {
@@ -192,39 +205,59 @@ function bindEvents() {
 
 // 处理发布
 function handlePublish() {
-    const code = inviteCodeInput.value.trim();
-    const agreeCheck = document.getElementById('agreeCheck').checked;
+    console.log('发布按钮被点击');
+    
+    const codeInput = document.getElementById('inviteCodeInput');
+    const agreeCheck = document.getElementById('agreeCheck');
+    
+    if (!codeInput) {
+        console.error('找不到输入框');
+        showToast('错误：找不到输入框');
+        return;
+    }
+    
+    const code = codeInput.value.trim();
+    
+    console.log('输入的邀请码:', code);
     
     if (!code) {
-        showToast('请输入 9 位拼多多福袋码');
+        showToast('⚠️ 请输入 9 位拼多多福袋码');
         return;
     }
     
     if (code.length !== 9) {
-        showToast('邀请码必须是 9 位数字');
+        showToast('⚠️ 邀请码必须是 9 位数字');
         return;
     }
     
-    if (!agreeCheck) {
-        showToast('请先同意互助协议');
+    if (!agreeCheck || !agreeCheck.checked) {
+        showToast('⚠️ 请先同意互助协议');
         return;
     }
     
     // 模拟发布成功
+    const maskedCode = code.substring(0, 3) + '***' + code.substring(6);
+    const now = new Date();
+    const timeStr = `${String(now.getMonth() + 1).padStart(2, '0')}/${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+    
     mockAvailableCodes.unshift({
-        code: code.substring(0, 3) + '***' + code.substring(6),
-        time: new Date().toLocaleString('zh-CN', { month: 'day', hour: '2-digit', minute: '2-digit' }),
+        code: maskedCode,
+        time: timeStr,
         ip: '192.*.*.*'
     });
     
     renderAvailableCodes();
-    inviteCodeInput.value = '';
-    showToast('发布成功！');
+    codeInput.value = '';
+    showToast('✅ 发布成功！');
     
     // 更新统计
     const todayHelpCount = document.getElementById('todayHelpCount');
-    let count = parseInt(todayHelpCount.textContent.replace(/,/g, ''));
-    todayHelpCount.textContent = (count + 1).toLocaleString();
+    if (todayHelpCount) {
+        let count = parseInt(todayHelpCount.textContent.replace(/,/g, ''));
+        todayHelpCount.textContent = (count + 1).toLocaleString();
+    }
+    
+    console.log('发布成功，当前可用邀请码数量:', mockAvailableCodes.length);
 }
 
 // 使用邀请码
