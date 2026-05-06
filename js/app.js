@@ -270,7 +270,7 @@ function handlePublish() {
     console.log('发布成功，当前可用邀请码数量:', mockAvailableCodes.length);
 }
 
-// 使用邀请码 - 复制并跳转拼多多
+// 使用邀请码 - 复制并跳转拼多多福袋活动页
 function useCode(code) {
     const copyOnly = copyOnlyCheck.checked;
     
@@ -280,15 +280,15 @@ function useCode(code) {
     if (copyOnly) {
         showToast('✅ 邀请码已复制，请手动打开拼多多');
     } else {
-        // 直接跳转拼多多福袋页面
+        // 跳转到拼多多百亿补贴福袋活动页面
         setTimeout(() => {
-            // 拼多多福袋 H5 页面链接
-            const pddUrl = `https://mobile.yangkeduo.com/gift_bag.html?code=${code}`;
+            // 拼多多百亿补贴消费券福袋活动页
+            const pddUrl = `https://mobile.yangkeduo.com/duo_coupon_luck?active_id=15528&code=${code}`;
             
-            // 在当前窗口打开，更容易跳转 APP
+            // 在当前窗口打开，触发 APP 跳转
             window.location.href = pddUrl;
             
-            showToast('🚀 正在跳转拼多多...');
+            showToast('🚀 正在跳转拼多多福袋...');
         }, 200);
     }
 }
